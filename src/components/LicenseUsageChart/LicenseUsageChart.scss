@@ -1,0 +1,14 @@
+.license-usage-chart {
+  position: relative;
+
+  .chart__title {
+    text-align: center;
+  }
+
+  .chart__label {
+    position: absolute;
+    top: 50%;
+    left: -1.6em;
+    transform: rotate(-90deg);
+  }
+}
