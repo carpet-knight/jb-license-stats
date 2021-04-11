@@ -1,15 +1,11 @@
-import { Table } from 'antd';
+import { Table, Empty } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import React, { useState, useEffect } from 'react';
 import { SizeType } from 'antd/es/config-provider/SizeContext';
 
-import './LicenseUsageTable.scss';
+import { getLicenseUsageStats } from '../../utils/statsUtil';
 
-interface LicenseUsageStats {
-  minUsage: number;
-  maxUsage: number;
-  avgUsage: number;
-}
+import './LicenseUsageTable.scss';
 
 interface LicenseUsageTableRow extends LicenseUsageStats {
   key: number;
@@ -17,7 +13,7 @@ interface LicenseUsageTableRow extends LicenseUsageStats {
 }
 
 interface LicesnseUsageTableProps {
-  data: LicenseUsageDataSummary;
+  data?: LicenseUsageDataSummary;
   size?: SizeType;
 }
 
@@ -41,28 +37,6 @@ const columns: ColumnsType<LicenseUsageTableRow> = [
   },
 ];
 
-// calculate min, max, avg license usage of the given product
-const getLicenseUsageStats = (data: LicenseUsageData[]): LicenseUsageStats => {
-  let sum = 0;
-  let min = data[0].licenseCount;
-  let max = data[0].licenseCount;
-
-  for (let i = 1; i < data.length; ++i) {
-    const licenseCount = data[i].licenseCount;
-
-    min = licenseCount < min ? licenseCount : min;
-    max = licenseCount > max ? licenseCount : max;
-
-    sum += licenseCount;
-  }
-
-  return {
-    minUsage: min,
-    maxUsage: max,
-    avgUsage: Math.round(sum / data.length),
-  };
-};
-
 const LicesnseUsageTable: React.FC<LicesnseUsageTableProps> = ({
   data,
   size = 'large',
@@ -71,6 +45,11 @@ const LicesnseUsageTable: React.FC<LicesnseUsageTableProps> = ({
   const [rows, setRows] = useState<LicenseUsageTableRow[]>([]);
 
   useEffect(() => {
+    if (!data) {
+      setLoading(true);
+      return;
+    }
+
     setLoading(true);
 
     const ideaStats = getLicenseUsageStats(data.idea);
