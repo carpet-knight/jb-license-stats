@@ -9,6 +9,12 @@ interface LicenseUsageDataSummary {
   goland: LicenseUsageData[];
 }
 
+interface LicenseUsageStats {
+  minUsage: number;
+  maxUsage: number;
+  avgUsage: number;
+}
+
 interface DateRange {
   from: import('dayjs').Dayjs;
   to: import('dayjs').Dayjs;
