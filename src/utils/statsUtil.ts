@@ -35,3 +35,32 @@ export const mergeStatsWithSameDay = (stats: LicenseUsageData[]) => {
 
   return merged;
 };
+
+// calculate min, max, avg license usage of the given product
+export const getLicenseUsageStats = (data: LicenseUsageData[]): LicenseUsageStats => {
+  if (data.length === 0)
+    return {
+      minUsage: 0,
+      maxUsage: 0,
+      avgUsage: 0,
+    };
+
+  let sum = data[0].licenseCount,
+    min = sum,
+    max = min;
+
+  for (let i = 1; i < data.length; ++i) {
+    const licenseCount = data[i].licenseCount;
+
+    min = licenseCount < min ? licenseCount : min;
+    max = licenseCount > max ? licenseCount : max;
+
+    sum += licenseCount;
+  }
+
+  return {
+    minUsage: min,
+    maxUsage: max,
+    avgUsage: Math.round(sum / data.length),
+  };
+};
