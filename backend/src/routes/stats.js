@@ -31,6 +31,10 @@ router.route('/').get((req, res) => {
     idea: db.get('idea').values(),
     goland: db.get('goland').values(),
     webstorm: db.get('webstorm').values(),
+    dateRange: {
+      from: db.get('meta.timestampMin'),
+      to: db.get('meta.timestampMax'),
+    },
   });
 });
 
