@@ -11,4 +11,10 @@
     left: -1.6em;
     transform: rotate(-90deg);
   }
+
+  .ant-empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
