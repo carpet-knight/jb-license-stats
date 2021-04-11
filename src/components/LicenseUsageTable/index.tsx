@@ -1,4 +1,4 @@
-import { Table, Empty } from 'antd';
+import { Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import React, { useState, useEffect } from 'react';
 import { SizeType } from 'antd/es/config-provider/SizeContext';
