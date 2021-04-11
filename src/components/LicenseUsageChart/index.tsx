@@ -3,7 +3,15 @@ import utcSupport from 'dayjs/plugin/utc';
 
 import { Empty } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts';
 
 import './LicenseUsageChart.scss';
 
@@ -11,7 +19,6 @@ dayjs.extend(utcSupport);
 
 interface LicenseUsageChartProps {
   title?: string;
-  width: number;
   height?: number;
   data?: LicenseUsageData[];
   fill?: string;
@@ -21,7 +28,6 @@ interface LicenseUsageChartProps {
 const LicenseUsageChart: React.FC<LicenseUsageChartProps> = ({
   title,
   data,
-  width,
   height = 250,
   maxBarSize = 40,
   fill = '#1890ff',
@@ -43,7 +49,7 @@ const LicenseUsageChart: React.FC<LicenseUsageChartProps> = ({
   }, [data]);
 
   return (
-    <div className="license-usage-chart" style={{ width }}>
+    <div className="license-usage-chart">
       {title && <h2 className="chart__title">{title}</h2>}
 
       {empty ? (
@@ -51,21 +57,23 @@ const LicenseUsageChart: React.FC<LicenseUsageChartProps> = ({
       ) : (
         <>
           <h3 className="chart__label">License Usage</h3>
-          <BarChart width={width} height={height} data={data}>
-            <CartesianGrid strokeDasharray="4 4" vertical={false} />
-            <XAxis
-              dataKey="timestamp"
-              tickFormatter={(date: Date) => `${dayjs(date).utc().format(dateFormat)}`}
-            />
-            <YAxis />
-            <Tooltip
-              labelFormatter={(date: Date) =>
-                `${dayjs(date).utc().format('DD MMM, YYYY')}`
-              }
-              formatter={(value: number) => [value, 'Licenses']}
-            />
-            <Bar dataKey="licenseCount" fill={fill} maxBarSize={maxBarSize} />
-          </BarChart>
+          <ResponsiveContainer width="95%" height={height}>
+            <BarChart data={data}>
+              <CartesianGrid strokeDasharray="4 4" vertical={false} />
+              <XAxis
+                dataKey="timestamp"
+                tickFormatter={(date: Date) => `${dayjs(date).utc().format(dateFormat)}`}
+              />
+              <YAxis />
+              <Tooltip
+                labelFormatter={(date: Date) =>
+                  `${dayjs(date).utc().format('DD MMM, YYYY')}`
+                }
+                formatter={(value: number) => [value, 'Licenses']}
+              />
+              <Bar dataKey="licenseCount" fill={fill} maxBarSize={maxBarSize} />
+            </BarChart>
+          </ResponsiveContainer>
         </>
       )}
     </div>
