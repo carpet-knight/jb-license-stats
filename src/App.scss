@@ -47,3 +47,31 @@
   height: 60vh;
   place-items: center;
 }
+
+// adjust date picker size for different screen support
+@media (min-width: 320px) and (max-width: 600px) {
+  .ant-picker-panels {
+    display: flex;
+    flex-direction: column;
+
+    .ant-picker-date-panel {
+      width: 100%;
+
+      .ant-picker-content {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (min-width: 320px) and (max-width: 460px) {
+  .ant-picker-dropdown {
+    width: 90%;
+  }
+}
+
+@media (min-width: 460px) and (max-width: 600px) {
+  .ant-picker-dropdown {
+    width: 75%;
+  }
+}
