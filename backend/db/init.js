@@ -66,7 +66,14 @@ const initDB = async () => {
     golandStatsSorted[0].timestamp,
   ]);
 
+  const timestampMax = db._.max([
+    webstormStatsSorted[webstormStatsSorted.length - 1].timestamp,
+    ideaStatsSorted[ideaStatsSorted.length - 1].timestamp,
+    golandStatsSorted[golandStatsSorted.length - 1].timestamp,
+  ]);
+
   db.set('meta.timestampMin', timestampMin).write();
+  db.set('meta.timestampMax', timestampMax).write();
 
   db.set('webstorm', webstormStatsSorted).write();
   db.set('idea', ideaStatsSorted).write();
